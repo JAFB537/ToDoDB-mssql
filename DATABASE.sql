@@ -130,3 +130,95 @@ CREATE TABLE [Event]
     FOREIGN KEY (UserID) REFERENCES [User](UserID)
 );
 GO
+
+---------------------------------------- CREATE TABLES LOG ---------------------------------------
+
+---> Create Table UserLog
+CREATE TABLE UserLog (
+    LogID INT PRIMARY KEY IDENTITY(1,1),
+    Action VARCHAR(10),
+    UserID INT,
+    UserName VARCHAR(20),
+    ActionDate DATETIME
+);
+GO
+
+---> Create Table StateLog
+CREATE TABLE StateLog (
+    LogID INT PRIMARY KEY IDENTITY(1,1),
+    Action VARCHAR(10),
+    StateID INT,
+    StateName VARCHAR(50),
+    ActionDate DATETIME
+);
+GO
+
+---> Create Table ProjectLog
+CREATE TABLE ProjectLog (
+    LogID INT PRIMARY KEY IDENTITY(1,1),
+    Action VARCHAR(10),
+    ProjectID INT,
+    ProjectName VARCHAR(50),
+    ActionDate DATETIME
+);
+GO
+
+---> Create Table UserProjectLog
+CREATE TABLE UserProjectLog (
+    LogID INT PRIMARY KEY IDENTITY(1,1),
+    Action VARCHAR(10),
+    UserID INT,
+    ProjectID INT,
+    ActionDate DATETIME
+);
+GO
+
+---> Create Table ProjectCommentLog
+CREATE TABLE ProjectCommentLog (
+    LogID INT PRIMARY KEY IDENTITY(1,1),
+    Action VARCHAR(10),
+    UserID INT,
+    ProjectID INT,
+    ActionDate DATETIME
+);
+GO
+
+---> Create Table TypeIssueLog
+CREATE TABLE TypeIssueLog (
+    LogID INT PRIMARY KEY IDENTITY(1,1),
+    Action VARCHAR(10),
+    TypeIssueID INT,
+    TypeIssueName VARCHAR(50),
+    ActionDate DATETIME
+);
+GO
+
+---> Create Table IssueLog
+CREATE TABLE IssueLog (
+    LogID INT PRIMARY KEY IDENTITY(1,1),
+    Action VARCHAR(10),
+    IssueID INT,
+    IssueName VARCHAR(50),
+    ActionDate DATETIME
+);
+GO
+
+---> Create Table IssueCommentLog
+CREATE TABLE IssueCommentLog (
+    LogID INT PRIMARY KEY IDENTITY(1,1),
+    Action VARCHAR(10),
+    UserID INT,
+    IssueID INT,
+    ActionDate DATETIME
+);
+GO
+
+---> Create Table EventLog
+CREATE TABLE EventLog (
+    LogID INT PRIMARY KEY IDENTITY(1,1),
+    Action VARCHAR(10),
+    EventID INT,
+    Description VARCHAR(500),
+    ActionDate DATETIME
+);
+GO
