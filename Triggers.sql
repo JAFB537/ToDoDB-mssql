@@ -1,8 +1,172 @@
----> Use the DataBase ToDoDB
+-- Use the DataBase ToDoDB
 USE ToDoDB;
 GO
 
----------------------------------------- CREATE TRIGGER USER ---------------------------------------
+---------------------------------------- DROP TRIGGERS ---------------------------------------
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterInsertUser')
+BEGIN
+    DROP TRIGGER trgAfterInsertUser;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterUpdateUser')
+BEGIN
+    DROP TRIGGER trgAfterUpdateUser;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterDeleteUser')
+BEGIN
+    DROP TRIGGER trgAfterDeleteUser;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterInsertState')
+BEGIN
+    DROP TRIGGER trgAfterInsertState;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterUpdateState')
+BEGIN
+    DROP TRIGGER trgAfterUpdateState;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterDeleteState')
+BEGIN
+    DROP TRIGGER trgAfterDeleteState;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterInsertProject')
+BEGIN
+    DROP TRIGGER trgAfterInsertProject;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterUpdateProject')
+BEGIN
+    DROP TRIGGER trgAfterUpdateProject;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterDeleteProject')
+BEGIN
+    DROP TRIGGER trgAfterDeleteProject;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterInsertUserProject')
+BEGIN
+    DROP TRIGGER trgAfterInsertUserProject;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterUpdateUserProject')
+BEGIN
+    DROP TRIGGER trgAfterUpdateUserProject;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterDeleteUserProject')
+BEGIN
+    DROP TRIGGER trgAfterDeleteUserProject;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterInsertProjectComment')
+BEGIN
+    DROP TRIGGER trgAfterInsertProjectComment;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterUpdateProjectComment')
+BEGIN
+    DROP TRIGGER trgAfterUpdateProjectComment;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterDeleteProjectComment')
+BEGIN
+    DROP TRIGGER trgAfterDeleteProjectComment;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterInsertTypeIssue')
+BEGIN
+    DROP TRIGGER trgAfterInsertTypeIssue;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterUpdateTypeIssue')
+BEGIN
+    DROP TRIGGER trgAfterUpdateTypeIssue;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterDeleteTypeIssue')
+BEGIN
+    DROP TRIGGER trgAfterDeleteTypeIssue;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterInsertIssue')
+BEGIN
+    DROP TRIGGER trgAfterInsertIssue;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterUpdateIssue')
+BEGIN
+    DROP TRIGGER trgAfterUpdateIssue;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterDeleteIssue')
+BEGIN
+    DROP TRIGGER trgAfterDeleteIssue;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterInsertIssueComment')
+BEGIN
+    DROP TRIGGER trgAfterInsertIssueComment;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterUpdateIssueComment')
+BEGIN
+    DROP TRIGGER trgAfterUpdateIssueComment;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterDeleteIssueComment')
+BEGIN
+    DROP TRIGGER trgAfterDeleteIssueComment;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterInsertEvent')
+BEGIN
+    DROP TRIGGER trgAfterInsertEvent;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterUpdateEvent')
+BEGIN
+    DROP TRIGGER trgAfterUpdateEvent;
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterDeleteEvent')
+BEGIN
+    DROP TRIGGER trgAfterDeleteEvent;
+END
+GO
+
+---------------------------------------- CREATE TRIGGERS ---------------------------------------
 
 ---> Trigger Insert [User]
 CREATE TRIGGER trgAfterInsertUser
@@ -40,8 +204,6 @@ BEGIN
 END;
 GO
 
----------------------------------------- CREATE TRIGGER STATE ---------------------------------------
-
 ---> Trigger Insert State
 CREATE TRIGGER trgAfterInsertState
 ON [State]
@@ -77,8 +239,6 @@ BEGIN
     FROM deleted;
 END;
 GO
-
----------------------------------------- CREATE TRIGGER PROJECT ---------------------------------------
 
 ---> Trigger Insert Project
 CREATE TRIGGER trgAfterInsertProject
@@ -116,8 +276,6 @@ BEGIN
 END;
 GO
 
----------------------------------------- CREATE TRIGGER USERPROJECT ---------------------------------------
-
 ---> Trigger Insert UserProject
 CREATE TRIGGER trgAfterInsertUserProject
 ON UserProject
@@ -154,9 +312,7 @@ BEGIN
 END;
 GO
 
----------------------------------------- CREATE TRIGGER PROJECTCOMMENT ---------------------------------------
-
----> Trigger Insert ProjectCommet
+---> Trigger Insert ProjectComment
 CREATE TRIGGER trgAfterInsertProjectComment
 ON ProjectComment
 AFTER INSERT
@@ -168,7 +324,7 @@ BEGIN
 END;
 GO
 
----> Trigger Update ProjectCommet
+---> Trigger Update ProjectComment
 CREATE TRIGGER trgAfterUpdateProjectComment
 ON ProjectComment
 AFTER UPDATE
@@ -180,7 +336,7 @@ BEGIN
 END;
 GO
 
----> Trigger Delete ProjectCommet
+---> Trigger Delete ProjectComment
 CREATE TRIGGER trgAfterDeleteProjectComment
 ON ProjectComment
 AFTER DELETE
@@ -191,8 +347,6 @@ BEGIN
     FROM deleted;
 END;
 GO
-
----------------------------------------- CREATE TRIGGER TYPEISSUE ---------------------------------------
 
 ---> Trigger Insert TypeIssue
 CREATE TRIGGER trgAfterInsertTypeIssue
@@ -230,8 +384,6 @@ BEGIN
 END;
 GO
 
----------------------------------------- CREATE TRIGGER ISSUE ---------------------------------------
-
 ---> Trigger Insert Issue
 CREATE TRIGGER trgAfterInsertIssue
 ON Issue
@@ -268,8 +420,6 @@ BEGIN
 END;
 GO
 
----------------------------------------- CREATE TRIGGER ISSUECOMMENT ---------------------------------------
-
 ---> Trigger Insert IssueComment
 CREATE TRIGGER trgAfterInsertIssueComment
 ON IssueComment
@@ -305,8 +455,6 @@ BEGIN
     FROM deleted;
 END;
 GO
-
----------------------------------------- CREATE TRIGGER EVENT ---------------------------------------
 
 ---> Trigger Insert Event
 CREATE TRIGGER trgAfterInsertEvent
