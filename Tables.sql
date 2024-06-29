@@ -13,7 +13,7 @@ GO
 ---> Create Table User
 CREATE TABLE [User]
 (
-    UserID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    UserID uniqueidentifier PRIMARY KEY DEFAULT NEWSEQUENTIALID() NOT NULL,
     Name VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
     Age INT,
@@ -42,28 +42,31 @@ CREATE TABLE [Project]
     Description VARCHAR(1000),
     StartDate DATE,
     EndDate DATE,
-    DateCreated DATETIME,
+    DateCreated DATETIME NOT NULL DEFAULT GETDATE(),
     StateID INT NOT NULL,
-    FOREIGN KEY (StateID) REFERENCES [State](StateID)
+    UserID uniqueidentifier NOT NULL,
+    FOREIGN KEY (StateID) REFERENCES [State](StateID),
+    FOREIGN KEY (UserID) REFERENCES [User](UserID)
 );
 GO
 
 ---> Create Table UserProject
 CREATE TABLE [UserProject]
 (
-    UserID INT,
+    UserID uniqueidentifier,
     ProjectID INT,
     PRIMARY KEY (UserID, ProjectID),
     FOREIGN KEY (UserID) REFERENCES [User](UserID),
-    FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID)
+    FOREIGN KEY (ProjectID) REFERENCES [Project](ProjectID)
 );
 GO
 
 ---> Create Table ProjectComment
 CREATE TABLE [ProjectComment]
 (
-    UserID INT NOT NULL,
+    UserID uniqueidentifier NOT NULL,
     ProjectID INT NOT NULL,
+    Description VARCHAR(1000),
     PRIMARY KEY (UserID, ProjectID),
     FOREIGN KEY (UserID) REFERENCES [User](UserID),
     FOREIGN KEY (ProjectID) REFERENCES [Project](ProjectID)
@@ -77,7 +80,7 @@ CREATE TABLE [TypeIssue]
     Name VARCHAR(50) NOT NULL,
     Description VARCHAR(1000),
     Image VARCHAR(100),
-    DateCreated DATETIME NOT NULL
+    DateCreated DATETIME NOT NULL DEFAULT GETDATE()
 );
 GO
 
@@ -87,10 +90,10 @@ CREATE TABLE [Issue]
     IssueID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     Name VARCHAR(50) NOT NULL,
     Description VARCHAR(1000),
-    DateCreated DATETIME,
+    DateCreated DATETIME NOT NULL DEFAULT GETDATE(),
     StateID INT NOT NULL,
     TypeIssueID INT NOT NULL,
-    UserID INT NOT NULL,
+    UserID uniqueidentifier NOT NULL,
     ProjectID INT NOT NULL,
     FOREIGN KEY (StateID) REFERENCES [State](StateID),
     FOREIGN KEY (TypeIssueID) REFERENCES [TypeIssue](TypeIssueID),
@@ -102,8 +105,9 @@ GO
 ---> Create Table IssueComment
 CREATE TABLE [IssueComment]
 (
-    UserID INT NOT NULL,
+    UserID uniqueidentifier NOT NULL,
     IssueID INT NOT NULL,
+    Description VARCHAR(1000),
     PRIMARY KEY (UserID, IssueID),
     FOREIGN KEY (UserID) REFERENCES [User](UserID),
     FOREIGN KEY (IssueID) REFERENCES [Issue](IssueID)
@@ -117,8 +121,10 @@ CREATE TABLE [Event]
     StartDate DATETIME NOT NULL,
     EndDate DATETIME NOT NULL,
     Description VARCHAR(1000),
-    UserID INT NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES [User](UserID)
+    UserID uniqueidentifier NOT NULL,
+    IssueID INT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES [User](UserID),
+    FOREIGN KEY (IssueID) REFERENCES [Issue](IssueID)
 );
 GO
 
@@ -128,9 +134,9 @@ GO
 CREATE TABLE UserLog (
     LogID INT PRIMARY KEY IDENTITY(1,1),
     Action VARCHAR(10),
-    UserID INT,
+    UserID uniqueidentifier,
     UserName VARCHAR(20),
-    ActionDate DATETIME
+    ActionDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 GO
 
@@ -140,7 +146,7 @@ CREATE TABLE StateLog (
     Action VARCHAR(10),
     StateID INT,
     StateName VARCHAR(50),
-    ActionDate DATETIME
+    ActionDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 GO
 
@@ -150,7 +156,7 @@ CREATE TABLE ProjectLog (
     Action VARCHAR(10),
     ProjectID INT,
     ProjectName VARCHAR(50),
-    ActionDate DATETIME
+    ActionDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 GO
 
@@ -158,9 +164,9 @@ GO
 CREATE TABLE UserProjectLog (
     LogID INT PRIMARY KEY IDENTITY(1,1),
     Action VARCHAR(10),
-    UserID INT,
+    UserID uniqueidentifier,
     ProjectID INT,
-    ActionDate DATETIME
+    ActionDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 GO
 
@@ -168,9 +174,10 @@ GO
 CREATE TABLE ProjectCommentLog (
     LogID INT PRIMARY KEY IDENTITY(1,1),
     Action VARCHAR(10),
-    UserID INT,
+    UserID uniqueidentifier,
     ProjectID INT,
-    ActionDate DATETIME
+    Description VARCHAR(1000),
+    ActionDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 GO
 
@@ -180,7 +187,7 @@ CREATE TABLE TypeIssueLog (
     Action VARCHAR(10),
     TypeIssueID INT,
     TypeIssueName VARCHAR(50),
-    ActionDate DATETIME
+    ActionDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 GO
 
@@ -190,7 +197,7 @@ CREATE TABLE IssueLog (
     Action VARCHAR(10),
     IssueID INT,
     IssueName VARCHAR(50),
-    ActionDate DATETIME
+    ActionDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 GO
 
@@ -198,9 +205,10 @@ GO
 CREATE TABLE IssueCommentLog (
     LogID INT PRIMARY KEY IDENTITY(1,1),
     Action VARCHAR(10),
-    UserID INT,
+    UserID uniqueidentifier,
     IssueID INT,
-    ActionDate DATETIME
+    Description VARCHAR(1000),
+    ActionDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 GO
 
@@ -210,6 +218,7 @@ CREATE TABLE EventLog (
     Action VARCHAR(10),
     EventID INT,
     Description VARCHAR(500),
-    ActionDate DATETIME
+    ActionDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 GO
+
