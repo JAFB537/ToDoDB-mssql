@@ -1,8 +1,7 @@
--- Use the DataBase ToDoDB
 USE ToDoDB;
 GO
 
----------------------------------------- DROP TRIGGERS ---------------------------------------
+--------------------------------------- DROP TRIGGERS ---------------------------------------
 
 IF EXISTS (SELECT * FROM sys.triggers WHERE name = 'trgAfterInsertUser')
 BEGIN
@@ -166,7 +165,7 @@ BEGIN
 END
 GO
 
----------------------------------------- CREATE TRIGGERS ---------------------------------------
+---------------------------------------- CREATE TRIGGERS ----------------------------------------
 
 ---> Trigger Insert [User]
 CREATE TRIGGER trgAfterInsertUser
@@ -175,7 +174,7 @@ AFTER INSERT
 AS
 BEGIN
     INSERT INTO UserLog (Action, UserID, UserName, ActionDate)
-    SELECT 'INSERT', inserted.UserID, inserted.UserName, GETDATE()
+    SELECT 'INSERT', UserID, UserName, GETDATE()
     FROM inserted;
 END;
 GO
@@ -187,7 +186,7 @@ AFTER UPDATE
 AS
 BEGIN
     INSERT INTO UserLog (Action, UserID, UserName, ActionDate)
-    SELECT 'UPDATE', inserted.UserID, inserted.UserName, GETDATE()
+    SELECT 'UPDATE', UserID, UserName, GETDATE()
     FROM inserted;
 END;
 GO
@@ -199,7 +198,7 @@ AFTER DELETE
 AS
 BEGIN
     INSERT INTO UserLog (Action, UserID, UserName, ActionDate)
-    SELECT 'DELETE', deleted.UserID, deleted.UserName, GETDATE()
+    SELECT 'DELETE', UserID, UserName, GETDATE()
     FROM deleted;
 END;
 GO
@@ -211,7 +210,7 @@ AFTER INSERT
 AS
 BEGIN
     INSERT INTO StateLog (Action, StateID, StateName, ActionDate)
-    SELECT 'INSERT', inserted.StateID, inserted.Name, GETDATE()
+    SELECT 'INSERT', StateID, Name, GETDATE()
     FROM inserted;
 END;
 GO
@@ -223,7 +222,7 @@ AFTER UPDATE
 AS
 BEGIN
     INSERT INTO StateLog (Action, StateID, StateName, ActionDate)
-    SELECT 'UPDATE', inserted.StateID, inserted.Name, GETDATE()
+    SELECT 'UPDATE', StateID, Name, GETDATE()
     FROM inserted;
 END;
 GO
@@ -235,7 +234,7 @@ AFTER DELETE
 AS
 BEGIN
     INSERT INTO StateLog (Action, StateID, StateName, ActionDate)
-    SELECT 'DELETE', deleted.StateID, deleted.Name, GETDATE()
+    SELECT 'DELETE', StateID, Name, GETDATE()
     FROM deleted;
 END;
 GO
@@ -247,7 +246,7 @@ AFTER INSERT
 AS
 BEGIN
     INSERT INTO ProjectLog (Action, ProjectID, ProjectName, ActionDate)
-    SELECT 'INSERT', inserted.ProjectID, inserted.Name, GETDATE()
+    SELECT 'INSERT', ProjectID, Name, GETDATE()
     FROM inserted;
 END;
 GO
@@ -259,7 +258,7 @@ AFTER UPDATE
 AS
 BEGIN
     INSERT INTO ProjectLog (Action, ProjectID, ProjectName, ActionDate)
-    SELECT 'UPDATE', inserted.ProjectID, inserted.Name, GETDATE()
+    SELECT 'UPDATE', ProjectID, Name, GETDATE()
     FROM inserted;
 END;
 GO
@@ -271,7 +270,7 @@ AFTER DELETE
 AS
 BEGIN
     INSERT INTO ProjectLog (Action, ProjectID, ProjectName, ActionDate)
-    SELECT 'DELETE', deleted.ProjectID, deleted.Name, GETDATE()
+    SELECT 'DELETE', ProjectID, Name, GETDATE()
     FROM deleted;
 END;
 GO
@@ -283,7 +282,7 @@ AFTER INSERT
 AS
 BEGIN
     INSERT INTO UserProjectLog (Action, UserID, ProjectID, ActionDate)
-    SELECT 'INSERT', inserted.UserID, inserted.ProjectID, GETDATE()
+    SELECT 'INSERT', UserID, ProjectID, GETDATE()
     FROM inserted;
 END;
 GO
@@ -295,7 +294,7 @@ AFTER UPDATE
 AS
 BEGIN
     INSERT INTO UserProjectLog (Action, UserID, ProjectID, ActionDate)
-    SELECT 'UPDATE', inserted.UserID, inserted.ProjectID, GETDATE()
+    SELECT 'UPDATE', UserID, ProjectID, GETDATE()
     FROM inserted;
 END;
 GO
@@ -307,7 +306,7 @@ AFTER DELETE
 AS
 BEGIN
     INSERT INTO UserProjectLog (Action, UserID, ProjectID, ActionDate)
-    SELECT 'DELETE', deleted.UserID, deleted.ProjectID, GETDATE()
+    SELECT 'DELETE', UserID, ProjectID, GETDATE()
     FROM deleted;
 END;
 GO
@@ -318,8 +317,8 @@ ON ProjectComment
 AFTER INSERT
 AS
 BEGIN
-    INSERT INTO ProjectCommentLog (Action, UserID, ProjectID, ActionDate)
-    SELECT 'INSERT', inserted.UserID, inserted.ProjectID, GETDATE()
+    INSERT INTO ProjectCommentLog (Action, UserID, ProjectID, Description, ActionDate)
+    SELECT 'INSERT', UserID, ProjectID, Description, GETDATE()
     FROM inserted;
 END;
 GO
@@ -330,8 +329,8 @@ ON ProjectComment
 AFTER UPDATE
 AS
 BEGIN
-    INSERT INTO ProjectCommentLog (Action, UserID, ProjectID, ActionDate)
-    SELECT 'UPDATE', inserted.UserID, inserted.ProjectID, GETDATE()
+    INSERT INTO ProjectCommentLog (Action, UserID, ProjectID, Description, ActionDate)
+    SELECT 'UPDATE', UserID, ProjectID, Description, GETDATE()
     FROM inserted;
 END;
 GO
@@ -342,8 +341,8 @@ ON ProjectComment
 AFTER DELETE
 AS
 BEGIN
-    INSERT INTO ProjectCommentLog (Action, UserID, ProjectID, ActionDate)
-    SELECT 'DELETE', deleted.UserID, deleted.ProjectID, GETDATE()
+    INSERT INTO ProjectCommentLog (Action, UserID, ProjectID, Description, ActionDate)
+    SELECT 'DELETE', UserID, ProjectID, Description, GETDATE()
     FROM deleted;
 END;
 GO
@@ -355,7 +354,7 @@ AFTER INSERT
 AS
 BEGIN
     INSERT INTO TypeIssueLog (Action, TypeIssueID, TypeIssueName, ActionDate)
-    SELECT 'INSERT', inserted.TypeIssueID, inserted.Name, GETDATE()
+    SELECT 'INSERT', TypeIssueID, Name, GETDATE()
     FROM inserted;
 END;
 GO
@@ -367,7 +366,7 @@ AFTER UPDATE
 AS
 BEGIN
     INSERT INTO TypeIssueLog (Action, TypeIssueID, TypeIssueName, ActionDate)
-    SELECT 'UPDATE', inserted.TypeIssueID, inserted.Name, GETDATE()
+    SELECT 'UPDATE', TypeIssueID, Name, GETDATE()
     FROM inserted;
 END;
 GO
@@ -379,7 +378,7 @@ AFTER DELETE
 AS
 BEGIN
     INSERT INTO TypeIssueLog (Action, TypeIssueID, TypeIssueName, ActionDate)
-    SELECT 'DELETE', deleted.TypeIssueID, deleted.Name, GETDATE()
+    SELECT 'DELETE', TypeIssueID, Name, GETDATE()
     FROM deleted;
 END;
 GO
@@ -391,7 +390,7 @@ AFTER INSERT
 AS
 BEGIN
     INSERT INTO IssueLog (Action, IssueID, IssueName, ActionDate)
-    SELECT 'INSERT', inserted.IssueID, inserted.Name, GETDATE()
+    SELECT 'INSERT', IssueID, Name, GETDATE()
     FROM inserted;
 END;
 GO
@@ -403,7 +402,7 @@ AFTER UPDATE
 AS
 BEGIN
     INSERT INTO IssueLog (Action, IssueID, IssueName, ActionDate)
-    SELECT 'UPDATE', inserted.IssueID, inserted.Name, GETDATE()
+    SELECT 'UPDATE', IssueID, Name, GETDATE()
     FROM inserted;
 END;
 GO
@@ -415,7 +414,7 @@ AFTER DELETE
 AS
 BEGIN
     INSERT INTO IssueLog (Action, IssueID, IssueName, ActionDate)
-    SELECT 'DELETE', deleted.IssueID, deleted.Name, GETDATE()
+    SELECT 'DELETE', IssueID, Name, GETDATE()
     FROM deleted;
 END;
 GO
@@ -426,8 +425,8 @@ ON IssueComment
 AFTER INSERT
 AS
 BEGIN
-    INSERT INTO IssueCommentLog (Action, UserID, IssueID, ActionDate)
-    SELECT 'INSERT', inserted.UserID, inserted.IssueID, GETDATE()
+    INSERT INTO IssueCommentLog (Action, UserID, IssueID, Description, ActionDate)
+    SELECT 'INSERT', UserID, IssueID, Description, GETDATE()
     FROM inserted;
 END;
 GO
@@ -438,8 +437,8 @@ ON IssueComment
 AFTER UPDATE
 AS
 BEGIN
-    INSERT INTO IssueCommentLog (Action, UserID, IssueID, ActionDate)
-    SELECT 'UPDATE', inserted.UserID, inserted.IssueID, GETDATE()
+    INSERT INTO IssueCommentLog (Action, UserID, IssueID, Description, ActionDate)
+    SELECT 'UPDATE', UserID, IssueID, Description, GETDATE()
     FROM inserted;
 END;
 GO
@@ -450,8 +449,8 @@ ON IssueComment
 AFTER DELETE
 AS
 BEGIN
-    INSERT INTO IssueCommentLog (Action, UserID, IssueID, ActionDate)
-    SELECT 'DELETE', deleted.UserID, deleted.IssueID, GETDATE()
+    INSERT INTO IssueCommentLog (Action, UserID, IssueID, Description, ActionDate)
+    SELECT 'DELETE', UserID, IssueID, Description, GETDATE()
     FROM deleted;
 END;
 GO
@@ -463,7 +462,7 @@ AFTER INSERT
 AS
 BEGIN
     INSERT INTO EventLog (Action, EventID, Description, ActionDate)
-    SELECT 'INSERT', inserted.EventID, inserted.Description, GETDATE()
+    SELECT 'INSERT', EventID, Description, GETDATE()
     FROM inserted;
 END;
 GO
@@ -475,7 +474,7 @@ AFTER UPDATE
 AS
 BEGIN
     INSERT INTO EventLog (Action, EventID, Description, ActionDate)
-    SELECT 'UPDATE', inserted.EventID, inserted.Description, GETDATE()
+    SELECT 'UPDATE', EventID, Description, GETDATE()
     FROM inserted;
 END;
 GO
@@ -487,8 +486,7 @@ AFTER DELETE
 AS
 BEGIN
     INSERT INTO EventLog (Action, EventID, Description, ActionDate)
-    SELECT 'DELETE', deleted.EventID, deleted.Description, GETDATE()
+    SELECT 'DELETE', EventID, Description, GETDATE()
     FROM deleted;
 END;
 GO
-
